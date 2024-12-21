@@ -1,50 +1,59 @@
 import * as React from 'react';
-import ReactMarkdown from 'markdown-to-jsx';
-import Typography from '@mui/material/Typography';
-import Link from '@mui/material/Link';
-import Box from '@mui/material/Box';
+import {Typography,Link,Box,Paper,Card,CardContent,CardActions} from '@mui/material';
+import EditorContent from '../Render/Content';
+import { Link as RouterLink } from 'react-router-dom';
 
-function MarkdownListItem(props) {
-  return <Box component="li" sx={{ mt: 1, typography: 'body1' }} {...props} />;
+
+
+
+
+function Markdown({post , singlepost}) {
+  return(
+    <>
+      {!singlepost ?
+        (<Card variant="outlined"
+        >
+           <CardContent>
+              <Typography component="h1" variant="h5" color="inherit" gutterBottom>
+              {post.title}
+              </Typography>  
+              <Box
+                sx={{
+                  width: '100%', // Set the desired width
+                  maxHeight: '300px', // Set a specific height or maxHeight
+                  overflow: 'hidden', // Hides any overflowed content
+                  WebkitMaskImage: 'linear-gradient(to bottom, black 80%, transparent)',
+                  maskImage: 'linear-gradient(to bottom, black 80%, transparent)',
+                  WebkitMaskSize: '100% 100%',
+                  maskSize: '100% 100%',
+                }}
+              >
+                <EditorContent data={post.data} />
+              </Box>
+        </CardContent>
+        <CardActions>
+          <Link variant="subtitle1" component={RouterLink} to={`/page?title=${post.title}`}>
+            {post.linkText}
+          </Link>
+        </CardActions>
+      </Card>)
+      :
+        (
+        <Paper>
+          <Box
+            sx={{
+              width: '100%', // Set the desired width
+              //border :1,
+              p:1,
+            }}
+        >
+          <EditorContent data={post.data} />
+        </Box>
+        </Paper>
+        )
+      }
+    </>
+  );
 }
 
-const options = {
-  overrides: {
-    h1: {
-      component: Typography,
-      props: {
-        gutterBottom: true,
-        variant: 'h4',
-        component: 'h1',
-      },
-    },
-    h2: {
-      component: Typography,
-      props: { gutterBottom: true, variant: 'h6', component: 'h2' },
-    },
-    h3: {
-      component: Typography,
-      props: { gutterBottom: true, variant: 'subtitle1' },
-    },
-    h4: {
-      component: Typography,
-      props: {
-        gutterBottom: true,
-        variant: 'caption',
-        paragraph: true,
-      },
-    },
-    p: {
-      component: Typography,
-      props: { paragraph: true },
-    },
-    a: { component: Link },
-    li: {
-      component: MarkdownListItem,
-    },
-  },
-};
-
-export default function Markdown(props) {
-  return <ReactMarkdown options={options} {...props} />;
-}
+export default Markdown;

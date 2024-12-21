@@ -31,3 +31,5 @@ class UserRepository(UserRepositoryInterface):
     def update_user(self, user_data: dict) -> dict:
         self.container.upsert_item(body=user_data)
         return user_data
+
+

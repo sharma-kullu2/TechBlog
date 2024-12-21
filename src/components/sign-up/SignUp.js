@@ -2,10 +2,8 @@ import * as React from 'react';
 import PropTypes from 'prop-types';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-import Checkbox from '@mui/material/Checkbox';
 import CssBaseline from '@mui/material/CssBaseline';
 import Divider from '@mui/material/Divider';
-import FormControlLabel from '@mui/material/FormControlLabel';
 import FormLabel from '@mui/material/FormLabel';
 import FormControl from '@mui/material/FormControl';
 import Link from '@mui/material/Link';
@@ -16,15 +14,11 @@ import Typography from '@mui/material/Typography';
 import Stack from '@mui/material/Stack';
 import { Card as MuiCard } from '@mui/material';
 import { createTheme, ThemeProvider, styled } from '@mui/material/styles';
-
 import AutoAwesomeRoundedIcon from '@mui/icons-material/AutoAwesomeRounded';
 import ArrowBackRoundedIcon from '@mui/icons-material/ArrowBackRounded';
-
-import getSignUpTheme from './getSignUpTheme';
-import ToggleColorMode from './ToggleColorMode';
-import { GoogleIcon, FacebookIcon, SitemarkIcon } from './CustomIcons';
-
-import { Link as RouterLink } from 'react-router-dom';
+import getAppTheme from '../Common/getAppTheme';
+import { GoogleIcon, FacebookIcon, SitemarkIcon } from '../Graphics/CustomIcons';
+import Redirect from '../Common/Redirect';
 
 function ToggleCustomTheme({ showCustomTheme, toggleCustomTheme }) {
   return (
@@ -100,10 +94,7 @@ const SignUpContainer = styled(Stack)(({ theme }) => ({
 }));
 
 export default function SignUp() {
-  const [mode, setMode] = React.useState('light');
-  const [showCustomTheme, setShowCustomTheme] = React.useState(true);
-  const defaultTheme = createTheme({ palette: { mode } });
-  const SignUpTheme = createTheme(getSignUpTheme(mode));
+  const SignUpTheme = createTheme(getAppTheme('light'));
   const [emailError, setEmailError] = React.useState(false);
   const [emailErrorMessage, setEmailErrorMessage] = React.useState('');
   const [passwordError, setPasswordError] = React.useState(false);
@@ -150,15 +141,12 @@ export default function SignUp() {
   };
 
   const apisignup = async () => {
-    //setIsLoading(true);
     const email = document.getElementById('email');
     const password = document.getElementById('password');
     const name = document.getElementById('name');
     if (validateInputs())
     {
       try {
-          //const apiUrl = `/api/signin?email=${email.value}&password=${password.value}`;
-          //console.log(apiUrl); // Output: /api/signin?email=user%40example.com&password=yourpassword
           const response = await fetch('/api/signup', 
             {
                 method: 'POST',
@@ -167,36 +155,21 @@ export default function SignUp() {
                 },
                 body: JSON.stringify({ email: email.value, password: password.value, username: name.value }),
           });
-
-          //const data = await response.json();
-
           console.log('Response: ',response);
-
           if (response.ok) {
-                // Handle successful sign-in (e.g., redirect to dashboard)
-  
-                // Redirect or perform other actions for logged-in user
-                setuserSignedUp(true);
+            // Redirect or perform other actions for logged-in user
+            setuserSignedUp(true);
           } else {
-                // Handle sign-in error
-                //setError(data.message || 'Sign-in failed. Please try again.');
-                console.log('Sign-in failed. Please try again.');
-                setuserSignedUp(false);
+            // Handle sign-in error
+            console.log('Sign-in failed. Please try again.');
+            setuserSignedUp(false);
           }
       } catch (error) {
-            //setError('An error occurred. Please try again.');
             console.log('An error occurred. Please try again.');
       } 
     }
   };
 
-  const toggleColorMode = () => {
-    setMode((prev) => (prev === 'dark' ? 'light' : 'dark'));
-  };
-
-  const toggleCustomTheme = () => {
-    setShowCustomTheme((prev) => !prev);
-  };
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -210,15 +183,11 @@ export default function SignUp() {
   };
 
   return (
-    <ThemeProvider theme={showCustomTheme ? SignUpTheme : defaultTheme}>
+    <ThemeProvider theme={SignUpTheme}>
       <CssBaseline />
       {userSignedUp ? (
         // Render this if user is signed in
-        <RouterLink to="/">
-        <Button variant="outlined" size="small" >
-          Home
-        </Button>
-        </RouterLink>
+        <Redirect message={"You have successfully signed up !! Check email for verification"}/>
       ) :(
       <SignUpContainer direction="column" justifyContent="space-between">
         <Stack
@@ -237,11 +206,10 @@ export default function SignUp() {
           >
             Back
           </Button>
-          <ToggleColorMode mode={mode} toggleColorMode={toggleColorMode} />
         </Stack>
         <Stack
           justifyContent="center"
-          sx={{ height: { xs: '100%', sm: '100dvh' }, p: 2 }}
+          useFlexGap={true}
         >
           <Card>
             <SitemarkIcon />
@@ -302,10 +270,6 @@ export default function SignUp() {
                   color={passwordError ? 'error' : 'primary'}
                 />
               </FormControl>
-              <FormControlLabel
-                control={<Checkbox value="allowExtraEmails" color="primary" />}
-                label="I want to receive updates via email."
-              />
               <Button
                 type="submit"
                 fullWidth
@@ -350,10 +314,6 @@ export default function SignUp() {
           </Card>
         </Stack>
       </SignUpContainer>)}
-      <ToggleCustomTheme
-        showCustomTheme={showCustomTheme}
-        toggleCustomTheme={toggleCustomTheme}
-      />
     </ThemeProvider>
   );
 }

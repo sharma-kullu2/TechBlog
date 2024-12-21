@@ -6,15 +6,16 @@ import IconButton from '@mui/material/IconButton';
 import SearchIcon from '@mui/icons-material/Search';
 import Typography from '@mui/material/Typography';
 import Link from '@mui/material/Link';
-import UserInfo from '../UserInfo/UserInfo';
+import UserInfo from '../UserProfile/UserInfo';
+import { Link as RouterLink } from 'react-router-dom';
 
 function Header(props) {
-  const { sections, title } = props;
+  const {sections, title, top, topFn} = props;
 
   return (
     <React.Fragment>
       <Toolbar sx={{ borderBottom: 1, borderColor: 'divider' }}>
-        <Button size="small">Subscribe</Button>
+        <Button size="small" onClick={topFn}>{top}</Button>
         <Typography
           component="h2"
           variant="h5"
@@ -41,7 +42,7 @@ function Header(props) {
             noWrap
             key={section.title}
             variant="body2"
-            href={section.url}
+            component={RouterLink} to={`/page?type=${section.title}`}
             sx={{ p: 1, flexShrink: 0 }}
           >
             {section.title}

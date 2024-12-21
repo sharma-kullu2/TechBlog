@@ -13,3 +13,4 @@ class UserRepositoryInterface(ABC):
     @abstractmethod 
     def update_user(self, user_data: dict) -> dict: 
         pass 
+ 

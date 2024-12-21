@@ -15,14 +15,20 @@ class Signin:
         try:
             req_body = req.get_json()
             signin_request = SignInRequest(**req_body)
-
             user = self.user_repo.find_by_email(signin_request.email)
             if user and self.auth_service.verify_password(signin_request.password, user['password']):
                 # add to local storage
                 token=self.store_service.generate_verification_token(user['email'])
                 response= GenericResponse(
                     success=True,
-                    data = {"Token":token}
+                    data = {
+                        "Token":token,
+                        "uid" : user['id'],
+                        "username": user['username'],
+                        "email": user['email'],
+                        "authorized" : user['authorized'],
+                        "subscribed" : user['subscribed'],
+                    }
                 )
                 return func.HttpResponse(response.to_json(), status_code=200, mimetype="application/json")
             else:

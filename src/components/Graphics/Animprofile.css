@@ -1,0 +1,41 @@
+/* Animprofile animation */
+.profileanimation {
+    position: absolute;     /* Allows it to move within the box */
+    left: 0;                /* Start at the left edge */
+    animation: 3s linear 1s infinite running slidein;
+}
+
+/* Keyframes to move element from left to right */
+@keyframes moveRight {
+    0% { left: 0; }         /* Start at the left */
+    100% { left: 100%; }    /* Move to the right edge */
+}
+
+/* Keyframes for blink animation */
+@keyframes blink {
+    0%, 100% { opacity: 1; }   /* Fully visible at the start and end */
+    50% { opacity: 0; }        /* Invisible at the midpoint */
+}
+
+/* Applying the blink animation */
+#star_1 {
+    animation: blink 1s steps(1, start) infinite;
+}
+
+#star_2 {
+    animation: blink 1s steps(1, start)  infinite;
+}
+
+#star_3 {
+    animation: blink 1s steps(1, start)  infinite;
+}
+
+
+/* Applying the blink animation */
+#tail0 {
+    animation: blink 0.5s steps(1, start) infinite;
+}
+
+#tail1 {
+    animation: blink 0.5s steps(1, start) infinite;
+}

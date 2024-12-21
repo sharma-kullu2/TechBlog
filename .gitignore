@@ -137,3 +137,5 @@ node_modules
 
 .vscode
 
+swa-cli.config.json
+

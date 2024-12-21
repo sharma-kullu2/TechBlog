@@ -1,8 +1,9 @@
 {
-    "navigationFallback": {
+  "trailingSlash": "auto",
+  "navigationFallback": {
       "rewrite": "/index.html"
-    },
-    "platform": {
+  },
+  "platform": {
     "apiRuntime": "python:3.8"
   }
 }

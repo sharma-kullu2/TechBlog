@@ -16,15 +16,11 @@ import Typography from '@mui/material/Typography';
 import Stack from '@mui/material/Stack';
 import { Card as MuiCard } from '@mui/material';
 import { ThemeProvider, createTheme, styled } from '@mui/material/styles';
-
 import ArrowBackRoundedIcon from '@mui/icons-material/ArrowBackRounded';
 import AutoAwesomeRoundedIcon from '@mui/icons-material/AutoAwesomeRounded';
-
 import ForgotPassword from './ForgotPassword';
-import getSignInTheme from './getSignInTheme';
-import ToggleColorMode from './ToggleColorMode';
-import { GoogleIcon, FacebookIcon, SitemarkIcon } from './CustomIcons';
-
+import { GoogleIcon, FacebookIcon, SitemarkIcon } from '../Graphics/CustomIcons';
+import getAppTheme from '../Common/getAppTheme';
 import { useNavigate } from 'react-router-dom';
 
 function ToggleCustomTheme({ showCustomTheme, toggleCustomTheme }) {
@@ -104,7 +100,7 @@ export default function SignIn() {
   const [mode, setMode] = React.useState('light');
   const [showCustomTheme, setShowCustomTheme] = React.useState(true);
   const defaultTheme = createTheme({ palette: { mode } });
-  const SignInTheme = createTheme(getSignInTheme(mode));
+  const SignInTheme = createTheme(getAppTheme(mode));
   const [emailError, setEmailError] = React.useState(false);
   const [emailErrorMessage, setEmailErrorMessage] = React.useState('');
   const [passwordError, setPasswordError] = React.useState(false);
@@ -112,14 +108,6 @@ export default function SignIn() {
   const [open, setOpen] = React.useState(false);
 
   const navigate = useNavigate();
-
-  const toggleColorMode = () => {
-    setMode((prev) => (prev === 'dark' ? 'light' : 'dark'));
-  };
-
-  const toggleCustomTheme = () => {
-    setShowCustomTheme((prev) => !prev);
-  };
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -168,14 +156,11 @@ export default function SignIn() {
   };
 
   const apisignin = async () => {
-    //setIsLoading(true);
     const email = document.getElementById('email');
     const password = document.getElementById('password');
     if (validateInputs())
     {
       try {
-          //const apiUrl = `/api/signin?email=${email.value}&password=${password.value}`;
-          //console.log(apiUrl); // Output: /api/signin?email=user%40example.com&password=yourpassword
           const response = await fetch('/api/signin', 
             {
                 method: 'POST',
@@ -184,29 +169,30 @@ export default function SignIn() {
                 },
                 body: JSON.stringify({ email: email.value, password: password.value }),
           });
-
-          //const data = await response.json();
-
           console.log('Response: ',response);
-
           if (response.ok) {
-                // Handle successful sign-in (e.g., redirect to dashboard)
-
                 console.log('Sign-in successful:', response);
                 const data = await response.json(); // Assuming the token is returned as a plain text response
                 localStorage.setItem('authToken', data.data.Token);
                 console.log('Login successful:', data.data.Token);
                 
+                //
+                sessionStorage.setItem('editorMail',data.data.email);
+                sessionStorage.setItem('editorAuth',data.data.authorized);
+                // username
+                sessionStorage.setItem('CurrentName',data.data.username);
+                // uid
+                sessionStorage.setItem('CurrentID',data.data.uid);
+                // 
+                sessionStorage.setItem('CurrentSubscribed',data.data.subscribed);
                 //redirect to home page
                 navigate('/');
                 // 
           } else {
                 // Handle sign-in error
-                //setError(data.message || 'Sign-in failed. Please try again.');
                 console.log('Sign-in failed. Please try again.');
           }
       } catch (error) {
-            //setError('An error occurred. Please try again.');
             console.log('An error occurred. Please try again.');
       } 
     }
@@ -232,11 +218,10 @@ export default function SignIn() {
           >
             Home
           </Button>
-          <ToggleColorMode mode={mode} toggleColorMode={toggleColorMode} />
         </Stack>
         <Stack
           justifyContent="center"
-          sx={{ height: { xs: '100%', sm: '100dvh' }, p: 2 }}
+          useFlexGap={true}
         >
           <Card>
             <SitemarkIcon />
@@ -355,10 +340,6 @@ export default function SignIn() {
           </Card>
         </Stack>
       </SignInContainer>
-      <ToggleCustomTheme
-        showCustomTheme={showCustomTheme}
-        toggleCustomTheme={toggleCustomTheme}
-      />
     </ThemeProvider>
   );
 }

@@ -9,4 +9,4 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
     signup_instance = Signup()
 
     # Call the sign_in method
-    return signup_instance.sign_in(req, logging.getLogger())
+    return signup_instance.sign_up(req, logging.getLogger())

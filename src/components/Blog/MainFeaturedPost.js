@@ -4,10 +4,11 @@ import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
 import Link from '@mui/material/Link';
-import Box from '@mui/material/Box';
+import {Box, CircularProgress} from '@mui/material';
+import { Link as RouterLink } from 'react-router-dom';
 
 function MainFeaturedPost(props) {
-  const { post } = props;
+  const { post, apiloading } = props;
 
   return (
     <Paper
@@ -46,12 +47,18 @@ function MainFeaturedPost(props) {
             <Typography component="h1" variant="h3" color="inherit" gutterBottom>
               {post.title}
             </Typography>
-            <Typography variant="h5" color="inherit" paragraph>
-              {post.description}
-            </Typography>
-            <Link variant="subtitle1" href="#">
-              {post.linkText}
-            </Link>
+            {apiloading ? (
+              <CircularProgress sx={{ mt: 3 }} />
+            ) : (
+                <>
+                    <Typography variant="h5" color="inherit" paragraph>
+                        {post.description}
+                    </Typography>
+                    <Link variant="subtitle1" component={RouterLink} to={`/page?title=${post.title}`}>
+                        {post.linkText}
+                    </Link>
+                </>
+            )}
           </Box>
         </Grid>
       </Grid>
