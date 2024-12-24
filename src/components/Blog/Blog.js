@@ -10,7 +10,7 @@ import Main from './Main';
 import Sidebar from './Sidebar';
 import Footer from './Footer';
 import getAppTheme from '../Common/getAppTheme';
-import {sections , sidebar} from '../Interface/defaults';
+import {sections , sidebar, title} from '../Interface/defaults';
 
 // TODO remove, this demo shouldn't need to reset the theme.
 const defaultTheme = createTheme(getAppTheme('light'));
@@ -26,7 +26,7 @@ export default function Blog(props) {
   React.useEffect( () =>{
     const userSubscribed = sessionStorage.getItem('CurrentSubscribed')
     console.log("BLOG susbscribed->",userSubscribed );
-    if (userSubscribed == 'true') //is true (string type)
+    if (userSubscribed === 'true') //is true (string type)
     {
       setSubscribed('Subscribed');
     }
@@ -40,7 +40,7 @@ export default function Blog(props) {
       */
     }
     else{
-      if (subscribed == 'Subscribe')
+      if (subscribed === 'Subscribe')
       {
         try{
           const response = await fetch('/api/getProfile', {
@@ -72,7 +72,7 @@ export default function Blog(props) {
     <ThemeProvider theme={defaultTheme}>
       <CssBaseline />
       <Container maxWidth="lg">
-        <Header title="Blog" sections={sections} top={subscribed} topFn = {subscribeHandler} />
+        <Header title={title} sections={sections} top={subscribed} topFn = {subscribeHandler} />
         <main>
           <MainFeaturedPost post={props.main} apiloading={props.apiLoading}/>
           <Grid container spacing={4}>
@@ -91,10 +91,7 @@ export default function Blog(props) {
           </Grid>
         </main>
       </Container>
-      <Footer
-        title="Footer"
-        description="Something here to give the footer a purpose!"
-      />
+      <Footer/>
     </ThemeProvider>
   );
 }

@@ -44,23 +44,24 @@ export class Post {
 };
 
 export const sections = [
-    { title: 'Technology', url: '#' },
-    { title: 'Design', url: '#' },
-    { title: 'Culture', url: '#' },
-    { title: 'Business', url: '#' },
-    { title: 'Politics', url: '#' },
-    { title: 'Opinion', url: '#' },
-    { title: 'Science', url: '#' },
-    { title: 'Health', url: '#' },
-    { title: 'Style', url: '#' },
-    { title: 'Travel', url: '#' },
+    { title: 'Programming', url: '#' },
+    { title: 'AI/ML', url: '#' },
+    { title: 'Operating Systems', url: '#' },
+    { title: 'Tech Recipes', url: '#' },
+    { title: 'Finance', url: '#' },
+    { title: 'Embedded Systems', url: '#' },
+    { title: 'LifeStyle', url: '#' },
+    { title: 'Travel Diary', url: '#' },
   ];
 
+export const title = 'TechLife Digest';
 
 export const sidebar = {
-    title: 'About',
+    title: 'Welcome to the journey',
     description:
-      'This is my blog site, developed by yours only',
+      'This is more than just a blog—it’s a hub for hobbyists, engineers, and technology evangelists. Here, I share my journey, insights, and expertise to help you navigate the ever-evolving world of technology.',
+    title_2:'About the Author',
+    description_2:'Hi, I’m Gaurav, a tech enthusiast with a knack for simplifying complex concepts. Whether it’s crafting clean architecture, unraveling the mysteries of React, or exploring the depths of Python, I’m always eager to learn and share what I discover',
     archives: [
       { title: 'October 2024', url: '#' },
       { title: 'November 2024', url: '#' },

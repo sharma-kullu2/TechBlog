@@ -8,7 +8,7 @@ import Link from '@mui/material/Link';
 import { Link as RouterLink } from 'react-router-dom';
 
 function Sidebar(props) {
-  const { archives, description, social, title } = props;
+  const { archives, description, social, title} = props;
 
   return (
     <Grid item xs={12} md={4}>

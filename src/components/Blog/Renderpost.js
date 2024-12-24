@@ -8,7 +8,7 @@ import Main from './Main';
 import Sidebar from './Sidebar';
 import Footer from './Footer';
 import getAppTheme from '../Common/getAppTheme';
-import { Post, sections, sidebar} from '../Interface/defaults';
+import { Post, sections, sidebar, title} from '../Interface/defaults';
 import { useNavigate } from 'react-router-dom';
 
  
@@ -102,23 +102,20 @@ function Renderpost (props){
         <ThemeProvider theme={defaultTheme}>
           <CssBaseline />
           <Container maxWidth="lg">
-            <Header title="Blog" sections={sections} top={'Home'} topFn = {()=>(navigate('/'))}/>
+            <Header title={title} sections={sections} top={'Home'} topFn = {()=>(navigate('/'))}/>
             <main>
               <Grid container spacing={5} sx={{ mt: 3 }}>
                 <Main title={props.title} posts={posts} taggedPosts={taggedPosts} flag ={props.singlePost} loading={props.loading} error={props.error}/>
                 <Sidebar
-                  title={sidebar.title}
-                  description={sidebar.description}
+                  title={sidebar.title_2}
+                  description={sidebar.description_2}
                   archives={sidebar.archives}
                   social={sidebar.social}
                 />
               </Grid>
             </main>
           </Container>
-          <Footer
-            title="Footer"
-            description="Something here to give the footer a purpose!"
-          />
+          <Footer/>
         </ThemeProvider>
       );
 }
