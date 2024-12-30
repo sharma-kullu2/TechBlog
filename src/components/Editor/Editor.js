@@ -7,6 +7,7 @@ import Reacteditor from './Reacteditor';
 import { useNavigate } from 'react-router-dom';
 import getAppTheme from '../Common/getAppTheme';
 import {sections} from '../Interface/defaults';
+import JsonUploader from './Jsonuploader';
 
 function Editor(){
     const [postTitle, setPostTitle] = React.useState('');
@@ -23,11 +24,17 @@ function Editor(){
     const [tags,setTags] = React.useState('');
     const editorinstance = React.useRef(null);
     const theme = createTheme(getAppTheme('light'));
-    
+
+    /* 
+    * FEATURE JSON UPLOAD
+    */
+    const [fileContent, setFileContent] = React.useState(null);
+
     const navigate = useNavigate();
 
     const handleChange = (event) => {
       setSelectedPost(event.target.value);
+      setMainFeaturedPost(true); //effectively has no effect|see definition
       /*setMainFeaturedPost(false);
       if ((event.target.value === 'post1') || (event.target.value === 'post2')){
         setMainFeaturedPost(true);
@@ -194,8 +201,9 @@ function Editor(){
                                 overflow: 'auto'
                             }}
                         >
-                            <Reacteditor instance={editorinstance}/>
+                            <Reacteditor instance={editorinstance} newcontent={fileContent}/>
                         </Paper>
+                        <JsonUploader {...{fileContent, setFileContent}}/>
                         </Grid>
                     </main>
         </Container>

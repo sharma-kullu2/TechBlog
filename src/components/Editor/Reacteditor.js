@@ -38,14 +38,21 @@ function Reacteditor(props){
     React.useEffect(() => {
         if (!initEditorCalled.current) {
             const content = sessionStorage.getItem('editorContent');
-            //if (content === null) initEditor({});  
+            //if (content === null) initEditor({});
+            /*if (props.newContent !== null){
+                content = props.newContent
+            }*/  
             initEditor(JSON.parse(content));  
+        }
+        if(props.newcontent !== null){
+            const content = props.newcontent;
+            initEditor(content);  
         }
         return () => {
             editorInstance?.current?.destroy();
             editorInstance.current = null;
           };
-    }, [editorInstance, initEditor]);
+    }, [editorInstance, initEditor , props.newcontent]);
 
     return (
         <div id="editorjs" style={{ border: '1px solid #ddd', padding: '10px', borderRadius: '5px' }} />
